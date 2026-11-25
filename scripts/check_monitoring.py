@@ -2,6 +2,7 @@
 
 import json
 import os
+import time
 from pathlib import Path
 
 import httpx
@@ -20,11 +21,22 @@ def main():
     results = {}
     with httpx.Client(timeout=10, trust_env=False) as client:
         for query in queries:
-            response = client.get("http://127.0.0.1:9090/api/v1/query", params={"query": query})
-            response.raise_for_status()
-            payload = response.json()
-            assert payload["status"] == "success" and payload["data"]["result"], query
-            results[query] = payload["data"]["result"]
+            # A healthy API can precede its first Prometheus scrape after a restart.
+            for _ in range(30):
+                response = client.get("http://127.0.0.1:9090/api/v1/query", params={"query": query})
+                response.raise_for_status()
+                payload = response.json()
+                samples = payload.get("data", {}).get("result", [])
+                if (
+                    payload["status"] == "success"
+                    and samples
+                    and all(float(sample["value"][1]) > 0 for sample in samples)
+                ):
+                    results[query] = samples
+                    break
+                time.sleep(1)
+            else:
+                raise AssertionError(f"No positive live samples after 30 attempts: {query}")
         dashboard = client.get(
             "http://127.0.0.1:3000/api/dashboards/uid/sports-booking",
             auth=("admin", os.environ["GRAFANA_ADMIN_PASSWORD"]),
