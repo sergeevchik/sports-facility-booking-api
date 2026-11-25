@@ -53,6 +53,9 @@ readiness и сохранность брони. Использовать отд�
 `docker compose exec -T api alembic current`.
 Сделайте логическую резервную копию, если данные представляют ценность.
 
+Для локальной сборки при установленном APP_IMAGE явно используйте
+`APP_IMAGE=sports-facility-booking-api:local docker compose up -d --build --wait`.
+
 Для обновления: pull выбранного SHA/digest → APP_IMAGE=<image> docker compose up -d --no-build --wait
 → smoke → health → dashboard. Миграции выполняются до API.
 

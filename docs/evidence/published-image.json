@@ -1,0 +1,15 @@
+{
+  "image": "ghcr.io/sergeevchik/sports-facility-booking-api@sha256:129f70b184a748a831a461842cad97c77cc266e1f1c5f7a1f2b0e8e43f3eada6",
+  "architecture": "arm64",
+  "os": "linux",
+  "size_bytes": 321427819,
+  "labels": {
+    "org.opencontainers.image.revision": "fec0c2d77c61486d556bc7d27adad3f33bb9cf2a",
+    "org.opencontainers.image.source": "https://github.com/sergeevchik/sports-facility-booking-api",
+    "org.opencontainers.image.version": "1.0.0"
+  },
+  "running_http_smoke": "passed",
+  "prometheus_grafana": "passed",
+  "source_commit": "fec0c2d77c61486d556bc7d27adad3f33bb9cf2a",
+  "ci_url": "https://github.com/sergeevchik/sports-facility-booking-api/actions/runs/45522980266"
+}

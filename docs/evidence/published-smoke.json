@@ -1,0 +1,18 @@
+{
+  "health": {
+    "status": "ok",
+    "version": "1.0.0",
+    "database": "ready"
+  },
+  "checks_passed": [
+    "create_facility",
+    "create_booking",
+    "conflict_409",
+    "read_booking",
+    "cancel",
+    "idempotent_cancel",
+    "rebook_released_interval",
+    "deactivate",
+    "metrics"
+  ]
+}

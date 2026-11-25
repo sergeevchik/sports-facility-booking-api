@@ -11,7 +11,8 @@ REST-сервис одного спортивного комплекса: пои
 
 ## Быстрый запуск
 
-Нужны Git, Python 3.13+ для локальных инструментов и работающий Docker с Compose v2.
+Нужны Git, Python для bootstrap и работающий Docker с Compose v2.
+Для разработки используется Python 3.13; установленный uv может выбрать его автоматически.
 Само приложение запускается в контейнере Python 3.13.
 Apple Silicon поддерживается; опубликованные образы предназначены для arm64 и amd64.
 
@@ -90,7 +91,7 @@ curl --noproxy '*' -X POST http://localhost:8000/api/v1/bookings \
 ## Разработка и тесты
 
 ```bash
-python3.13 -m venv .venv
+uv venv --seed --python 3.13 .venv
 source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
 python -m pip check
@@ -102,6 +103,8 @@ pytest --cov=app --cov-report=term-missing --cov-report=xml:artifacts/coverage.x
 python scripts/smoke.py --output artifacts/smoke.json
 python scripts/check_monitoring.py
 ```
+
+Альтернатива uv: при доступном Python 3.13 выполнить `python3.13 -m venv .venv`.
 
 Тестовая БД отдельная: `booking_test` на `127.0.0.1:55432` с одноразовым хранилищем.
 Тесты **очищают только её**; другое имя БД отвергается. Временная тестовая БД использует
@@ -122,7 +125,8 @@ trust-аутентификацию и доступна только через l
 
 [GitHub Actions](.github/workflows/ci.yml) выполняет Ruff, проверку зависимостей,
 все тесты с PostgreSQL, сборку и запуск полного Compose-стенда, smoke и проверку мониторинга.
-Отчёты JUnit, coverage, Ruff и smoke сохраняются как Actions artifacts.
+Отчёты JUnit, coverage, Ruff, Gitleaks и smoke сохраняются как Actions artifacts.
+Gitleaks проверяет всю доступную Git-историю без сетевого доступа контейнера.
 При push в `main` или тега после успешных проверок публикуется multi-platform образ в GHCR:
 
 - `ghcr.io/sergeevchik/sports-facility-booking-api:sha-<полный commit SHA>`;
