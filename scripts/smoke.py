@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from uuid import uuid4
 
 import httpx
@@ -79,6 +80,7 @@ def main():
         ],
     }
     if args.output:
+        Path(args.output).parent.mkdir(parents=True, exist_ok=True)
         with open(args.output, "w") as output:
             json.dump(result, output, indent=2)
     print(json.dumps(result, indent=2))

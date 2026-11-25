@@ -12,7 +12,10 @@ class Database:
             pool_size=10,
             max_overflow=10,
             pool_timeout=3,
-            connect_args={"connect_timeout": 2, "options": "-c statement_timeout=5000"},
+            connect_args={
+                "connect_timeout": 2,
+                "options": "-c statement_timeout=5000 -c timezone=UTC",
+            },
         )
         self.sessions = sessionmaker(self.engine, expire_on_commit=False)
 

@@ -12,7 +12,7 @@ PostgreSQL запрещает пересечения даже при однов�
 | № | Требование | Прямое доказательство |
 |---|---|---|
 | 1 | Публичный Git-репозиторий | [Код и история](https://github.com/sergeevchik/sports-facility-booking-api), [PR #1](https://github.com/sergeevchik/sports-facility-booking-api/pull/1) |
-| 2 | Нет секретов в репозитории | [.gitignore](.gitignore), [пустой шаблон](.env.example), [Settings → Secrets без значений](docs/evidence/github-secrets.jpg); перед публикацией проверены все Git blobs на фактические локальные credentials |
+| 2 | Нет секретов в репозитории | [.gitignore](.gitignore), [пустой шаблон](.env.example), [Settings → Secrets без значений](docs/evidence/github-secrets.jpg); [Gitleaks report](docs/evidence/gitleaks.json) и проверка всех Git blobs на фактические локальные credentials |
 | 3 | Инструкция запуска | [README: быстрый запуск](README.md#быстрый-запуск), [runbook](docs/runbook.md) |
 | 4 | HTTP и /health | [Примеры curl](README.md#примеры-http), [результат smoke](docs/evidence/smoke.json), [автоматизированный сценарий](scripts/smoke.py) |
 | 5 | CI при push/PR в main | [Workflow](.github/workflows/ci.yml), [успешный запуск PR](https://github.com/sergeevchik/sports-facility-booking-api/actions/runs/45521928124) |
@@ -24,7 +24,7 @@ PostgreSQL запрещает пересечения даже при однов�
 
 ## Автоматические проверки и наблюдаемое поведение
 
-- **45 тестов** с реальным PostgreSQL, **98% coverage** приложения:
+- **47 тестов** с реальным PostgreSQL, **98% coverage** приложения:
   [результат](docs/evidence/test-summary.txt), [тесты](tests/).
 - Миграции проходят downgrade/upgrade на изолированной booking_test; другое имя БД отвергается.
 - Проверяются пересечения, границы, часовые пояса, вместимость, отмена, повторная отмена,
@@ -46,8 +46,9 @@ PostgreSQL запрещает пересечения даже при однов�
 
 На момент исходного PR положительный CI проверен на Linux amd64, локальный стенд —
 на Apple Silicon arm64. Образ публикуется только после всех проверок main/релизного тега.
-Проверка registry digest и негативного CI-сценария будет добавлена отдельным evidence-коммитом
-после фактического выполнения, без вымышленных результатов.
+[Отрицательный CI-сценарий и исправление](docs/evidence/ci-failure.md): реальный business regression
+отклонён pytest; зависимые этапы не запущены. Main защищён обязательными checks и PR.
+Проверка registry digest будет зафиксирована после фактической публикации образа.
 
 ## Конфигурация и отсутствие секретов
 
