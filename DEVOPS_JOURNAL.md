@@ -15,7 +15,7 @@
 | Зависимости | uv pip install ...; uv pip check | Зависимости совместимы |
 | Правила | pytest tests/unit -q | Проверены интервалы, границы, часовые пояса, настройки |
 | PostgreSQL | docker compose -f compose.test.yml up -d --wait | Изолированная тестовая БД готова |
-| Тесты | pytest --cov=app ... | 45 тестов, включая реальные конкурентные запросы; 98% покрытия |
+| Тесты | pytest --cov=app ... | 47 тестов, включая реальные конкурентные запросы; 98% покрытия |
 | Качество | ruff check .; ruff format --check . | Проверки проходят |
 | Конфигурация | python scripts/bootstrap.py | Локальные случайные секреты, .env с правами 600 |
 | Docker | docker compose up -d --build --wait | API, PostgreSQL, Prometheus и Grafana запущены; миграция применена |
