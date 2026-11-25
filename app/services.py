@@ -66,7 +66,7 @@ def create_booking(
     facility = get_facility(session, data.facility_id, lock=True)
     if not facility.is_active:
         raise DomainError("facility_inactive", "Facility is not available for bookings")
-    if data.participants > facility.capacity:
+    if data.participants >= facility.capacity:
         raise DomainError("capacity_exceeded", "Participants exceed facility capacity", 422)
     booking = Booking(
         **data.model_dump(exclude={"starts_at", "ends_at"}), starts_at=start, ends_at=end

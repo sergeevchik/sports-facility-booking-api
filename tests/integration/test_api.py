@@ -97,6 +97,28 @@ def test_capacity_validation(client, payload, participants):
     )
 
 
+def test_full_capacity_is_accepted(client, payload, facility):
+    booking = create(client, {**payload, "participants": facility["capacity"]})
+    assert booking["participants"] == facility["capacity"]
+
+
+def test_concurrent_cancellation_is_idempotent(application, client, payload):
+    booking = create(client, payload)
+    barrier = Barrier(2)
+
+    def cancel(_):
+        with TestClient(application, headers={"X-API-Key": TEST_KEY}) as concurrent:
+            barrier.wait(timeout=10)
+            response = concurrent.post(f"/api/v1/bookings/{booking['id']}/cancel")
+            assert response.status_code == 200
+            return response.json()
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first, second = list(pool.map(cancel, range(2)))
+    assert first == second
+    assert "bookings_cancelled_total 1.0" in client.get("/metrics").text
+
+
 def test_timezone_required_and_unknown_fields_rejected(client, payload):
     assert (
         client.post(
