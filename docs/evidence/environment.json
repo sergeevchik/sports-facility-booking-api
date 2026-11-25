@@ -1,0 +1,8 @@
+{
+  "platform": "Darwin",
+  "machine": "arm64",
+  "python": "3.13.5",
+  "docker": "29.9.3",
+  "docker_memory_bytes": "8318910464",
+  "docker_cpus": "14"
+}

@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-11-25T00:53:17.781539+00:00",
+  "persistence_after_api_restart": true,
+  "health_during_database_outage": 503,
+  "business_during_database_outage": 503,
+  "metrics_during_database_outage": 200,
+  "recovery_without_api_restart": true,
+  "data_preserved": true
+}
