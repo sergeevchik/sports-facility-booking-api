@@ -1,0 +1,63 @@
+{
+  "up{job=\"sports-booking-api\"}": [
+    {
+      "metric": {
+        "__name__": "up",
+        "instance": "api:8000",
+        "job": "sports-booking-api"
+      },
+      "value": [
+        1795567930.417,
+        "1"
+      ]
+    }
+  ],
+  "app_ready": [
+    {
+      "metric": {
+        "__name__": "app_ready",
+        "instance": "api:8000",
+        "job": "sports-booking-api"
+      },
+      "value": [
+        1795567930.421,
+        "1"
+      ]
+    }
+  ],
+  "bookings_created_total": [
+    {
+      "metric": {
+        "__name__": "bookings_created_total",
+        "instance": "api:8000",
+        "job": "sports-booking-api"
+      },
+      "value": [
+        1795567930.421,
+        "0"
+      ]
+    }
+  ],
+  "sum(http_requests_total)": [
+    {
+      "metric": {},
+      "value": [
+        1795567930.422,
+        "8"
+      ]
+    }
+  ],
+  "sum(http_request_duration_seconds_count)": [
+    {
+      "metric": {},
+      "value": [
+        1795567930.423,
+        "8"
+      ]
+    }
+  ],
+  "grafana": {
+    "title": "Sports Facility Booking API",
+    "panels": 9
+  }
+}
